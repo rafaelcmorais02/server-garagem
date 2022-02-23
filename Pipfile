@@ -7,8 +7,10 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 psycopg2 = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
+autopep8 = "*"
 
 [requires]
 python_version = "3.8"
