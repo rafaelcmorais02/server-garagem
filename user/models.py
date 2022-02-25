@@ -27,6 +27,7 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     user_name = models.EmailField(max_length=254, unique=True)
     first_name = models.CharField(max_length=254)
     last_name = models.CharField(max_length=254)
+    password2 = models.CharField(max_length=254, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
