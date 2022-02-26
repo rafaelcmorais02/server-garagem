@@ -1,8 +1,10 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from user.models import NewUser
 from user.serializers import UserSerializer, UserRegisterSerializer
+from user.permissions import IsAuthor
 
 
 class UserView(APIView):
@@ -26,21 +28,19 @@ class UserView(APIView):
                 'message': 'usuário cadastrado com sucesso',
                 'data': request.data
             }
-            return Response(resp)
+            return Response(resp, status=201)
+        else:
+            return Response({'message': 'erro no cadastro do usuário'}, status=400)
 
 
 class UserDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthor, ]
 
     def get(self, request, pk):
-        user = NewUser.objects.get(pk=pk)
+        user = get_object_or_404(NewUser, pk=pk)
+        self.check_object_permissions(self.request, user)
         user_serializer = UserSerializer(user)
-        if user_serializer.data['id'] == request.user.id:
-            resp = {
-                'data': user_serializer.data
-            }
-        else:
-            resp = {
-                'data': 'Você não tem permissão de ver usuários diferentes do seu'
-            }
+        resp = {
+            'data': user_serializer.data
+        }
         return Response(resp)
