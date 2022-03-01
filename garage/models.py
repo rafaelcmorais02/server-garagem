@@ -10,3 +10,18 @@ class Garage(models.Model):
 
     def __str__(self):
         return self.garage_name
+
+
+class Vehicle(models.Model):
+    TYPES = (
+            ('C', 'Carro'),
+            ('M', 'Moto'),
+    )
+    type = models.CharField(choices=TYPES, max_length=1)
+    model = models.CharField(max_length=254)
+    color = models.CharField(max_length=254)
+    garage = models.ForeignKey(
+        Garage, related_name='garage', on_delete=models.DO_NOTHING, null=True)
+
+    def __str__(self):
+        return self.model
