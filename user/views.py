@@ -20,6 +20,8 @@ class UserView(APIView):
         }
         return Response(resp)
 
+
+class UserRegisterView(APIView):
     def post(self, request):
         user_serializer = UserRegisterSerializer(data=request.data)
         if user_serializer.is_valid():

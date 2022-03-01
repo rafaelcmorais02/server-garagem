@@ -29,7 +29,7 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=254)
     password2 = models.CharField(max_length=254, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=timezone.now)
 
