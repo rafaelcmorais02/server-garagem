@@ -21,7 +21,7 @@ class Vehicle(models.Model):
     model = models.CharField(max_length=254)
     color = models.CharField(max_length=254)
     garage = models.ForeignKey(
-        Garage, related_name='garage', on_delete=models.DO_NOTHING, null=True)
+        Garage, related_name='garage', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.model

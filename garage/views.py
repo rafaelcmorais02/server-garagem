@@ -23,6 +23,14 @@ class GarageRegisterView(APIView):
 class GarageView(APIView):
     def get(self, request):
         garage = Garage.objects.all()
+        user = request.query_params.get('user')
+        if user is not None:
+            garage = garage.filter(user=user)
+            garage_serializer = GarageSerializer(garage, many=True)
+            resp = {
+                'data': garage_serializer.data,
+            }
+            return Response(resp)
         garage_serializer = GarageSerializer(garage, many=True)
         resp = {
             'data': garage_serializer.data,
@@ -47,6 +55,14 @@ class VehicleRegisterView(APIView):
 class VehicleView(APIView):
     def get(self, request):
         vehicle = Vehicle.objects.all()
+        garage = request.query_params.get('garage')
+        if garage is not None:
+            vehicle = vehicle.filter(garage=garage)
+            vehicle_serializer = VehicleSerializer(vehicle, many=True)
+            resp = {
+                'data': vehicle_serializer.data,
+            }
+            return Response(resp)
         vehicle_serializer = VehicleSerializer(vehicle, many=True)
         resp = {
             'data': vehicle_serializer.data,
