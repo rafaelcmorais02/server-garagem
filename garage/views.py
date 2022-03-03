@@ -1,4 +1,3 @@
-from functools import partial
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import GarageSerializer, VehicleSerializer
@@ -36,6 +35,15 @@ class GarageView(APIView):
             'data': garage_serializer.data,
         }
         return Response(resp)
+
+
+class GarageDetailView(APIView):
+    def delete(self, request, pk):
+        garage = get_object_or_404(Garage, pk=pk)
+        garage.delete()
+        return Response({
+            'message': f'Garagem {pk} deletada com sucesso'
+        })
 
 
 class VehicleRegisterView(APIView):
