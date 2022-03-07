@@ -1,4 +1,5 @@
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializers import GarageSerializer, VehicleSerializer
 from .models import Garage, Vehicle
@@ -6,6 +7,8 @@ from django.shortcuts import get_object_or_404
 
 
 class GarageRegisterView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         garage_serializer = GarageSerializer(data=request.data)
         if garage_serializer.is_valid():
@@ -20,6 +23,8 @@ class GarageRegisterView(APIView):
 
 
 class GarageView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         garage = Garage.objects.all()
         user = request.query_params.get('user')
@@ -38,6 +43,8 @@ class GarageView(APIView):
 
 
 class GarageDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def delete(self, request, pk):
         garage = get_object_or_404(Garage, pk=pk)
         garage.delete()
@@ -47,6 +54,8 @@ class GarageDetailView(APIView):
 
 
 class VehicleRegisterView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         vehicle_serializer = VehicleSerializer(data=request.data)
         if vehicle_serializer.is_valid():
@@ -61,6 +70,8 @@ class VehicleRegisterView(APIView):
 
 
 class VehicleView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         vehicle = Vehicle.objects.all()
         garage = request.query_params.get('garage')
