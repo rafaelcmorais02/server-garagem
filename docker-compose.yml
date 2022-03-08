@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "rafael"
+    ports:
+      - "15432:5432"
+    volumes:
+      - /home/renatogroffe/Desenvolvimento/Docker-Compose/PostgreSQL:/var/lib/postgresql/data 
+    networks:
+      - postgres-compose-network
+      
+  garage-server:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=garagem
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=rafael
+      - POSTGRES_HOST=db   
+    depends_on:
+      - db
+    networks:
+      - postgres-compose-network
+
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "rafaelcmorais02@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "rafael"
+    ports:
+      - "16543:80"
+    depends_on:
+      - db
+    networks:
+      - postgres-compose-network
+
+networks: 
+  postgres-compose-network:
+    driver: bridge
