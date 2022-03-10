@@ -8,6 +8,8 @@ django = "*"
 djangorestframework = "*"
 psycopg2 = "*"
 django-cors-headers = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [dev-packages]
 autopep8 = "*"
